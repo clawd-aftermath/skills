@@ -238,10 +238,9 @@ Candle updates arrive as:
 }
 ```
 
-The next service rollout is expected to add the current mark price to regular
-market data. This field was not yet observed on production at 2026-09-03
-17:20 UTC, so consumers must treat it as absent until deployment is verified.
-The fragment below omits the existing `PerpetualsMarketData` fields:
+Production market updates include the current mark price. This was verified
+from a live production frame at 2026-09-03 19:45 UTC. The fragment below omits
+the existing `PerpetualsMarketData` fields:
 
 ```json
 {
@@ -252,8 +251,8 @@ The fragment below omits the existing `PerpetualsMarketData` fields:
 }
 ```
 
-The same rollout is expected to add mark and book prices to oracle updates.
-These fields were not yet observed on production at 2026-09-03 17:20 UTC:
+Production oracle updates include mark and book prices. Both fields were
+verified from a live production frame at 2026-09-03 19:45 UTC:
 
 ```json
 {
@@ -267,8 +266,7 @@ These fields were not yet observed on production at 2026-09-03 17:20 UTC:
 }
 ```
 
-On deployment, `market.markPrice` and `oracle.markPrice` are numeric and
-represent the price
+`market.markPrice` and `oracle.markPrice` are numeric and represent the price
 used for position PnL and liquidation calculations. `oracle.bookPrice` is the
 raw orderbook midpoint and is `null` when either side of the book is empty.
 These additions do not change subscription messages or remove existing
