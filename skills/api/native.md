@@ -238,6 +238,42 @@ Candle updates arrive as:
 }
 ```
 
+The next service rollout is expected to add the current mark price to regular
+market data. This field was not yet observed on production at 2026-09-03
+17:20 UTC, so consumers must treat it as absent until deployment is verified.
+The fragment below omits the existing `PerpetualsMarketData` fields:
+
+```json
+{
+  "market": {
+    "objectId": "0x...",
+    "markPrice": 81000.0
+  }
+}
+```
+
+The same rollout is expected to add mark and book prices to oracle updates.
+These fields were not yet observed on production at 2026-09-03 17:20 UTC:
+
+```json
+{
+  "oracle": {
+    "marketId": "0x...",
+    "basePrice": 80990.0,
+    "collateralPrice": 1.0,
+    "markPrice": 81000.0,
+    "bookPrice": 81010.0
+  }
+}
+```
+
+On deployment, `market.markPrice` and `oracle.markPrice` are numeric and
+represent the price
+used for position PnL and liquidation calculations. `oracle.bookPrice` is the
+raw orderbook midpoint and is `null` when either side of the book is empty.
+These additions do not change subscription messages or remove existing
+response fields. REST market prices expose the same raw midpoint as `midPrice`.
+
 Stream behavior notes:
 
 - User payloads sort positions by market ID; pending bids/asks sort by order ID; pending orders include `clientOrderId`.
